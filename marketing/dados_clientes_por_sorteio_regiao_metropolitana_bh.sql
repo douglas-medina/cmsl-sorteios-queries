@@ -1,0 +1,27 @@
+SELECT
+    C.NOME,
+    C.TELEFONE,
+    C.CELULAR,
+    C.EMAIL,
+    C2.NOME AS CIDADE
+FROM
+    CMSL_PROD.CLIENTES C
+    LEFT JOIN CMSL_PROD.CIDADES C2 ON C2.ID = C.IDCIDADE
+WHERE
+    C.IDCIDADE IN (
+        1630, -- BELO HORIZONTE
+        1636, -- BETIM
+        1770, -- CONTAGEM
+        1994, -- LAGOA SANTA
+        2084, -- NOVA LIMA
+        2239 -- SANTA LUZIA
+    )
+    AND EXISTS (
+        SELECT
+            1
+        FROM
+            CMSL_PROD.BILHETES B
+        WHERE
+            B.IDCLIENTE = C.ID
+            AND B.IDCONCURSO = 74 -- SORTEIO REALIZADO NO DIA 09/02/2026
+    );
